@@ -1,0 +1,58 @@
+[
+  {
+    "total_accesses": 128,
+    "hits": 96,
+    "misses": 32,
+    "hit_ratio": 0.75,
+    "miss_ratio": 0.25,
+    "compulsory_misses": 32,
+    "conflict_misses": 0,
+    "capacity_misses": 0,
+    "refills": 32,
+    "sum_check": 1.0,
+    "workload": "Sequential Access",
+    "access_count": 128
+  },
+  {
+    "total_accesses": 128,
+    "hits": 127,
+    "misses": 1,
+    "hit_ratio": 0.9921875,
+    "miss_ratio": 0.0078125,
+    "compulsory_misses": 1,
+    "conflict_misses": 0,
+    "capacity_misses": 0,
+    "refills": 1,
+    "sum_check": 1.0,
+    "workload": "Repeated Access",
+    "access_count": 128
+  },
+  {
+    "total_accesses": 128,
+    "hits": 5,
+    "misses": 123,
+    "hit_ratio": 0.0390625,
+    "miss_ratio": 0.9609375,
+    "compulsory_misses": 121,
+    "conflict_misses": 2,
+    "capacity_misses": 0,
+    "refills": 123,
+    "sum_check": 1.0,
+    "workload": "Random Access",
+    "access_count": 128
+  },
+  {
+    "total_accesses": 128,
+    "hits": 0,
+    "misses": 128,
+    "hit_ratio": 0.0,
+    "miss_ratio": 1.0,
+    "compulsory_misses": 4,
+    "conflict_misses": 124,
+    "capacity_misses": 0,
+    "refills": 128,
+    "sum_check": 1.0,
+    "workload": "Conflict Access",
+    "access_count": 128
+  }
+]
