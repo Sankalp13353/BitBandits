@@ -10,3 +10,7 @@ sim/sim_cache_top
 # Python bytecode
 __pycache__/
 *.pyc
+
+# Audit reports
+DIRECT_MAPPED_CACHE_AUDIT_REPORT.md
+
