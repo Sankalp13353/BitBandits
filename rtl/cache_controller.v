@@ -18,12 +18,13 @@
 `timescale 1ns / 1ps
 
 module cache_controller #(
-    parameter ADDR_WIDTH   = 32,
-    parameter DATA_WIDTH   = 32,
-    parameter BLOCK_WIDTH  = 128,
-    parameter TAG_WIDTH    = 22,
-    parameter INDEX_WIDTH  = 6,
-    parameter OFFSET_WIDTH = 4
+    parameter ADDR_WIDTH       = 32,
+    parameter DATA_WIDTH       = 32,
+    parameter BLOCK_WIDTH      = 128,
+    parameter TAG_WIDTH        = 22,
+    parameter INDEX_WIDTH      = 6,
+    parameter OFFSET_WIDTH     = 4,
+    parameter USE_EXT_DECODER  = 0
 )(
     input  wire                    clk,
     input  wire                    rst,
@@ -34,6 +35,14 @@ module cache_controller #(
     output reg                     cpu_ready,
     output reg                     cpu_resp_valid,
     output reg  [DATA_WIDTH-1:0]   cpu_resp_data,
+
+    // Address Decoder Interface (from address_decoder)
+    input  wire [TAG_WIDTH-1:0]    dec_cpu_tag,
+    input  wire [INDEX_WIDTH-1:0]  dec_cpu_index,
+    input  wire [OFFSET_WIDTH-1:0] dec_cpu_offset,
+    input  wire [1:0]              dec_cpu_word_sel,
+    input  wire [1:0]              dec_cpu_byte_offset,
+    input  wire [ADDR_WIDTH-1:0]   dec_cpu_block_addr,
 
     // Cache Storage Interface
     output wire [INDEX_WIDTH-1:0]  storage_read_index,
@@ -85,21 +94,21 @@ module cache_controller #(
     // Internal Registers for Request Latching and Line Buffers
     // =========================================================================
     reg [ADDR_WIDTH-1:0]  latched_addr;
+    reg [TAG_WIDTH-1:0]   latched_tag;
+    reg [INDEX_WIDTH-1:0] latched_index;
+    reg [1:0]             latched_word_sel;
+    reg [ADDR_WIDTH-1:0]  latched_block_addr;
     reg [BLOCK_WIDTH-1:0] cached_block;
     reg [BLOCK_WIDTH-1:0] mem_block_buffer;
 
-    // Address field decoding from latched address:
-    // Tag:          latched_addr[31:10] (22 bits)
-    // Index:        latched_addr[9:4]   (6 bits)
-    // Block offset: latched_addr[3:0]   (4 bits)
-    // Word select:  latched_addr[3:2]   (2 bits)
-    wire [TAG_WIDTH-1:0]   req_tag      = latched_addr[31:10];
-    wire [INDEX_WIDTH-1:0] req_index    = latched_addr[9:4];
-    wire [1:0]             req_word_sel = latched_addr[3:2];
+    // Address field decoding from latched registers or internal slicing
+    wire [TAG_WIDTH-1:0]   req_tag      = USE_EXT_DECODER ? latched_tag        : latched_addr[31:10];
+    wire [INDEX_WIDTH-1:0] req_index    = USE_EXT_DECODER ? latched_index      : latched_addr[9:4];
+    wire [1:0]             req_word_sel = USE_EXT_DECODER ? latched_word_sel   : latched_addr[3:2];
 
     // Read index driven to storage
     assign storage_read_index = (current_state == S_IDLE && cpu_req_valid) ?
-                                cpu_req_addr[9:4] : req_index;
+                                (USE_EXT_DECODER ? dec_cpu_index : cpu_req_addr[9:4]) : req_index;
 
     // Route storage signals and requested tag to comparator
     assign comp_stored_tag   = storage_read_tag;
@@ -125,16 +134,24 @@ module cache_controller #(
     // =========================================================================
     always @(posedge clk or posedge rst) begin
         if (rst) begin
-            current_state    <= S_IDLE;
-            latched_addr     <= {ADDR_WIDTH{1'b0}};
-            cached_block     <= {BLOCK_WIDTH{1'b0}};
-            mem_block_buffer <= {BLOCK_WIDTH{1'b0}};
+            current_state      <= S_IDLE;
+            latched_addr       <= {ADDR_WIDTH{1'b0}};
+            latched_tag        <= {TAG_WIDTH{1'b0}};
+            latched_index      <= {INDEX_WIDTH{1'b0}};
+            latched_word_sel   <= 2'b00;
+            latched_block_addr <= {ADDR_WIDTH{1'b0}};
+            cached_block       <= {BLOCK_WIDTH{1'b0}};
+            mem_block_buffer   <= {BLOCK_WIDTH{1'b0}};
         end else begin
             current_state <= next_state;
 
             // Latch CPU request address on entering from IDLE
             if (current_state == S_IDLE && cpu_req_valid) begin
-                latched_addr <= cpu_req_addr;
+                latched_addr       <= cpu_req_addr;
+                latched_tag        <= USE_EXT_DECODER ? dec_cpu_tag        : cpu_req_addr[31:10];
+                latched_index      <= USE_EXT_DECODER ? dec_cpu_index      : cpu_req_addr[9:4];
+                latched_word_sel   <= USE_EXT_DECODER ? dec_cpu_word_sel   : cpu_req_addr[3:2];
+                latched_block_addr <= USE_EXT_DECODER ? dec_cpu_block_addr : {cpu_req_addr[31:4], 4'b0000};
             end
 
             // On Cache Hit in LOOKUP, latch data block directly from storage
@@ -222,7 +239,7 @@ module cache_controller #(
 
         // Memory Request Controls: Asserted exclusively during MEM_REQUEST state
         mem_req  = (current_state == S_MEM_REQUEST);
-        mem_addr = {latched_addr[31:4], 4'b0000}; // Block aligned
+        mem_addr = USE_EXT_DECODER ? latched_block_addr : {latched_addr[31:4], 4'b0000}; // Block aligned
     end
 
 endmodule
