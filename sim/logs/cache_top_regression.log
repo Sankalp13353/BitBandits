@@ -1,0 +1,172 @@
+VCD info: dumpfile sim/cache_top_sv.vcd opened for output.
+===============================================================================
+   DIRECT-MAPPED CACHE CONTROLLER - SYSTEMVERILOG TESTBENCH (ANANT)           
+===============================================================================
+
+===============================================================================
+   [SANITY CHECK] Executing Basic Cache Initialization & Read Check           
+===============================================================================
+   [PASS] Sanity read successful: Addr=0x00001000 -> Data=0x01000a01 (Miss detected, latency=12 cyc)
+
+===============================================================================
+   [TEST 1] COLD CACHE TEST (Compulsory Miss Verification)                     
+===============================================================================
+   [Subtest 1.1] Cold access to Address 0x00001204 (Index=32, Word=1)
+         [PASS] Compulsory Miss confirmed | Data = 0x01204b02 (Expected 0x01204b02), Latency = 12 cycles
+   [Subtest 1.2] Cold access to Address 0x00002408 (Index=0, Word=2)
+         [PASS] Compulsory Miss confirmed | Data = 0x02408c03 (Expected 0x02408c03), Latency = 12 cycles
+   [Subtest 1.3] Cold access to Address 0x0000360c (Index=32, Word=3)
+         [PASS] Compulsory Miss confirmed | Data = 0x0360cd04 (Expected 0x0360cd04), Latency = 12 cycles
+   [Subtest 1.4] Cold access to Address 0x00004800 (Index=0, Word=0)
+         [PASS] Compulsory Miss confirmed | Data = 0x04800a01 (Expected 0x04800a01), Latency = 12 cycles
+
+===============================================================================
+   [TEST 2] TEMPORAL LOCALITY TEST (Repeated Access to Same Address)           
+===============================================================================
+   [PASS] Access 1 (Initial) : Miss confirmed | Latency = 12 cyc, Data = 0x02004b02
+   [PASS] Access 2 (Repeated): Hit confirmed  | Latency = 2 cyc, Data = 0x02004b02
+   [PASS] Access 3 (Repeated): Hit confirmed  | Latency = 2 cyc, Data = 0x02004b02
+   [PASS] Access 4 (Repeated): Hit confirmed  | Latency = 2 cyc, Data = 0x02004b02
+   [PASS] Access 5 (Repeated): Hit confirmed  | Latency = 2 cyc, Data = 0x02004b02
+
+===============================================================================
+   [TEST 3] SPATIAL LOCALITY TEST (Access 4 Words in 16-Byte Block)            
+===============================================================================
+   --- Subtest 3A: Sequential Word In-Block Order (0 -> 1 -> 2 -> 3) ---
+   [PASS] Word 0 (Addr=0x00005a00): Compulsory Miss | Latency = 12 cyc, Data = 0x05a00a01
+   [PASS] Word 1 (Addr=0x00005a04): Spatial Hit     | Latency = 2 cyc, Data = 0x05a04b02
+   [PASS] Word 2 (Addr=0x00005a08): Spatial Hit     | Latency = 2 cyc, Data = 0x05a08c03
+   [PASS] Word 3 (Addr=0x00005a0c): Spatial Hit     | Latency = 2 cyc, Data = 0x05a0cd04
+
+   --- Subtest 3B: Non-sequential Word In-Block Order (2 -> 0 -> 3 -> 1) ---
+   [PASS] Step 1: Word 2 (Addr=0x00006b08): Compulsory Miss | Latency = 12 cyc, Data = 0x06b08c03
+   [PASS] Step 2: Word 0 (Addr=0x00006b00): Spatial Hit     | Latency = 2 cyc, Data = 0x06b00a01
+   [PASS] Step 3: Word 3 (Addr=0x00006b0c): Spatial Hit     | Latency = 2 cyc, Data = 0x06b0cd04
+   [PASS] Step 4: Word 1 (Addr=0x00006b04): Spatial Hit     | Latency = 2 cyc, Data = 0x06b04b02
+
+===============================================================================
+   [TEST 4] SEQUENTIAL ACCESS & STREAMING BLOCK REUSE TEST                     
+===============================================================================
+   --- Pass 1: Cold Streaming Over 32 Sequential 32-Bit Words ---
+   [PASS] Pass 1 Complete: 24 Hits, 8 Misses (Observed Hit Rate = 75.0%, Expected = 75.0%)
+
+   --- Pass 2: Warm Streaming Over Same 32 Words (Cache Residency Verification) ---
+   [PASS] Pass 2 Complete: 32 Hits, 0 Misses (Observed Hit Rate = 100.0%, Expected = 100.0%)
+
+===============================================================================
+   [TEST 5] CONFLICT MISS & LINE REPLACEMENT TEST                              
+===============================================================================
+   [PASS] Step 1: Load Addr A (0x00000000) -> Compulsory Miss, Line 0 allocated Tag 0x000000
+   [PASS] Step 2: Re-access Addr A (0x00000000) -> Hit confirmed (Tag 0x000000 resident)
+   [PASS] Step 3: Load Addr B (0x00000400) -> Conflict Miss confirmed! Evicted Tag 0x0, installed Tag 0x1
+   [PASS] Step 4: Load Addr C (0x00000800) -> Conflict Miss confirmed! Evicted Tag 0x1, installed Tag 0x2
+   [PASS] Step 5: Re-access evicted Addr A -> Miss verified! Proves replacement & thrashing         0
+   [PASS] Step 6: Access Word 1 of re-fetched block -> Spatial Hit confirmed!
+
+   --- Subtest 5B: Conflict Replacement on Line 45 (0x2D) ---
+   [PASS] Conflict Miss confirmed on Line 45: Addr=0x000006d0 evicted Addr=0x000002d0
+
+===============================================================================
+   [TEST 6] PSEUDORANDOM ACCESS WORKLOAD TEST (Reproducible Fixed Seed)        
+===============================================================================
+   Executing 100 pseudorandom transactions with fixed seed 0x5eedc0de...
+   [PASS] Random Workload Summary: 100 Transactions, 6 Hits, 94 Misses (Hit Rate = 6.0%)
+          Data Fidelity Check: 100 / 100 exact matches (Zero mismatches).
+
+===============================================================================
+   [TEST 7] RESET BEHAVIOR & INVALIDATION VERIFICATION                         
+===============================================================================
+   --- Step 1: Pre-populating 4 Cache Lines ---
+   [PASS] 4 lines confirmed resident in cache prior to reset.
+   --- Step 2: Applying Hardware Reset Pulse ---
+   --- Step 3: Verifying Post-Reset Invalidation ---
+   [PASS] Post-Reset Access 1 (0x00001000) -> Compulsory Miss confirmed (No false hit)
+   [PASS] Post-Reset Access 2 (0x00001100) -> Compulsory Miss confirmed (No false hit)
+   [PASS] Post-Reset Access 3 (0x00001200) -> Compulsory Miss confirmed (No false hit)
+   [PASS] Post-Reset Access 4 (0x00001300) -> Compulsory Miss confirmed (No false hit)
+
+===============================================================================
+   [TEST 8] CONSECUTIVE REQUESTS & BACKPRESSURE PROTOCOL VERIFICATION         
+===============================================================================
+   --- Subtest 8A: cpu_ready Backpressure Verification ---
+   [PASS] cpu_ready is strictly 0 while FSM is serving memory request.
+
+   --- Subtest 8B: Back-to-Back Consecutive Transactions Without Reset ---
+   [PASS] Consecutive TX 1 (0x00007004): Data=0x07004b02 (Hit=1, Miss=0, Lat=2 cyc)
+   [PASS] Consecutive TX 2 (0x00007008): Data=0x07008c03 (Hit=1, Miss=0, Lat=2 cyc)
+   [PASS] Consecutive TX 3 (0x00008000): Data=0x08000a01 (Hit=0, Miss=1, Lat=12 cyc)
+   [PASS] Consecutive TX 4 (0x00008004): Data=0x08004b02 (Hit=1, Miss=0, Lat=2 cyc)
+   [PASS] All 5 consecutive transactions completed seamlessly with correct backpressure.
+
+===============================================================================
+   [INDEX SWEEP] FULL 64-INDEX FUNCTIONAL COVERAGE SWEEP                      
+===============================================================================
+   --- Pass 1: Cold Fill Across All 64 Cache Lines (Lines 0 - 63) ---
+   [PASS] All 64 cache lines successfully populated from memory.
+
+   --- Pass 2: Warm Hit Verification Across All 64 Cache Lines ---
+   [PASS] All 64 cache lines confirmed resident and returning 2-cycle hits (100% Line Residency).
+
+===============================================================================
+          COMPREHENSIVE FUNCTIONAL COVERAGE REPORT (ANANT)                     
+===============================================================================
+1. TRANSACTION METRICS & HIT/MISS CLASSIFICATION:
+   - Total CPU Read Requests Executed : 334
+   - Total Cache Hits Recorded        : 145 (43.41%)
+   - Total Cache Misses Recorded      : 189 (56.59%)
+     * Compulsory (Cold) Misses       : 121
+     * Conflict (Eviction) Misses     : 68
+   - Memory Refill Events Fired       : 190
+   - Hardware Reset / Clears Fired    : 3
+   - Cache Line Valid Transitions     : 190
+
+2. ARCHITECTURAL SPACE COVERAGE:
+   - Cache Indices Exercised          : 64 / 64 (100.0% coverage)
+     * Indices experiencing Hits      : 64 / 64 (100.0%)
+     * Indices experiencing Misses    : 64 / 64 (100.0%)
+   - Word Offsets Exercised (0,1,2,3) : 4 / 4  (100.0% coverage)
+     * Word 0 (Offset 0x0) accesses   : 104
+     * Word 1 (Offset 0x4) accesses   : 77
+     * Word 2 (Offset 0x8) accesses   : 80
+     * Word 3 (Offset 0xC) accesses   : 73
+   - Distinct Tag Values Exercised    : 22 distinct tags
+
+3. FSM STATE & TRANSITION COVERAGE:
+   - FSM States Visited               : 6 / 6  (100.0% coverage)
+     * S_IDLE        (3'b000) cycles  : 676
+     * S_LOOKUP      (3'b001) cycles  : 335
+     * S_MEM_REQUEST (3'b010) cycles  : 190
+     * S_MEM_WAIT    (3'b011) cycles  : 1520
+     * S_REFILL      (3'b100) cycles  : 190
+     * S_RESPOND     (3'b101) cycles  : 335
+   - FSM Transitions Exercised        : 7 / 7  (100.0% coverage)
+     * IDLE -> LOOKUP                 : 335
+     * LOOKUP -> RESPOND (Hit Path)   : 145
+     * LOOKUP -> MEM_REQ (Miss Path)  : 190
+     * MEM_REQ -> MEM_WAIT            : 190
+     * MEM_WAIT -> REFILL             : 190
+     * REFILL -> RESPOND              : 190
+     * RESPOND -> IDLE                : 335
+
+4. SYSTEMVERILOG ASSERTION VERIFICATION SUMMARY:
+   - Total Assertion Violations       : 0
+   - Check 1: No Response Without Req : VERIFIED (0 Violations)
+   - Check 2: No Invalid Cache Hit    : VERIFIED (0 Violations)
+   - Check 3: Block Address Alignment : VERIFIED (0 Violations)
+   - Check 4: No Duplicate Resp Pulse : VERIFIED (0 Violations)
+   - Check 5: Data Integrity Fidelity : VERIFIED (0 Violations)
+   - Check 6: Valid Bit Refill Commit : VERIFIED (0 Violations)
+   - Check 7: Controller Liveness     : VERIFIED (0 Violations)
+   - Check 8: cpu_ready Protocol      : VERIFIED (0 Violations)
+===============================================================================
+
+===============================================================================
+   FINAL REGRESSION EXECUTION SUMMARY (ANANT)                                 
+===============================================================================
+Total Formal Checks Executed  : 332
+Total Checks Passed           : 332
+Total Checks Failed           : 0
+Total Assertion Failures      : 0
+===============================================================================
+>>> ALL SYSTEMVERILOG TEST SCENARIOS & ASSERTIONS PASSED (100.0%) <<<
+tb/tb_cache_top.sv:611: $finish called at 32525000 (1ps)
