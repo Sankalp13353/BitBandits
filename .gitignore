@@ -6,3 +6,7 @@ sim_hit
 sim_miss
 sim_refill
 sim/sim_cache_top
+
+# Python bytecode
+__pycache__/
+*.pyc

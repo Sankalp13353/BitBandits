@@ -1,0 +1,453 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.71+post (git sha1 5628c13240f670b97aaaca3d47940c4afb8ff572, Release, AppleClang clang++ 17.0.0.17000604)
+
+-- Running command `read_verilog rtl/cache_controller.v; hierarchy -check -top cache_controller; proc; opt; fsm; opt; memory; opt; techmap; opt; stat' --
+
+1. Executing Verilog-2005 frontend: rtl/cache_controller.v
+Parsing Verilog input from `rtl/cache_controller.v' to AST representation.
+Generating RTLIL representation for module `\cache_controller'.
+Successfully finished Verilog frontend.
+
+2. Executing HIERARCHY pass (managing design hierarchy).
+
+2.1. Analyzing design hierarchy..
+Top module:  \cache_controller
+
+2.2. Analyzing design hierarchy..
+Top module:  \cache_controller
+Removed 0 unused modules.
+
+3. Executing PROC pass (convert processes to netlists).
+
+3.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+3.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 4 switch rules as full_case in process $rtl/cache_controller.v:161$proc$13 in module cache_controller.
+Marked 1 switch rules as full_case in process $rtl/cache_controller.v:126$proc$5 in module cache_controller.
+Removed 1 dead cases from process $rtl/cache_controller.v:113$proc$4 in module cache_controller.
+Marked 1 switch rules as full_case in process $rtl/cache_controller.v:113$proc$4 in module cache_controller.
+Removed a total of 1 dead cases.
+
+3.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 1 redundant assignment.
+Promoted 14 assignments to connections.
+
+3.4. Executing PROC_INIT pass (extract init attributes).
+
+3.5. Executing PROC_ARST pass (detect async resets in processes).
+Found async reset \rst in `\cache_controller.$rtl/cache_controller.v:126$proc$5'.
+
+3.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~9 debug messages>
+
+3.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\cache_controller.$rtl/cache_controller.v:206$proc$14'.
+Creating decoders for process `\cache_controller.$rtl/cache_controller.v:161$proc$13'.
+     1/4: $4\next_state[2:0]
+     2/4: $3\next_state[2:0]
+     3/4: $2\next_state[2:0]
+     4/4: $1\next_state[2:0]
+Creating decoders for process `\cache_controller.$rtl/cache_controller.v:126$proc$5'.
+     1/4: $0\current_state[2:0]
+     2/4: $0\mem_block_buffer[127:0]
+     3/4: $0\cached_block[127:0]
+     4/4: $0\latched_addr[31:0]
+Creating decoders for process `\cache_controller.$rtl/cache_controller.v:113$proc$4'.
+     1/1: $1\selected_word[31:0]
+
+3.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\cache_controller.\cpu_ready' from process `\cache_controller.$rtl/cache_controller.v:206$proc$14'.
+No latch inferred for signal `\cache_controller.\cpu_resp_valid' from process `\cache_controller.$rtl/cache_controller.v:206$proc$14'.
+No latch inferred for signal `\cache_controller.\cpu_resp_data' from process `\cache_controller.$rtl/cache_controller.v:206$proc$14'.
+No latch inferred for signal `\cache_controller.\storage_write_en' from process `\cache_controller.$rtl/cache_controller.v:206$proc$14'.
+No latch inferred for signal `\cache_controller.\storage_write_index' from process `\cache_controller.$rtl/cache_controller.v:206$proc$14'.
+No latch inferred for signal `\cache_controller.\storage_write_tag' from process `\cache_controller.$rtl/cache_controller.v:206$proc$14'.
+No latch inferred for signal `\cache_controller.\storage_write_data' from process `\cache_controller.$rtl/cache_controller.v:206$proc$14'.
+No latch inferred for signal `\cache_controller.\storage_write_valid' from process `\cache_controller.$rtl/cache_controller.v:206$proc$14'.
+No latch inferred for signal `\cache_controller.\mem_req' from process `\cache_controller.$rtl/cache_controller.v:206$proc$14'.
+No latch inferred for signal `\cache_controller.\mem_addr' from process `\cache_controller.$rtl/cache_controller.v:206$proc$14'.
+No latch inferred for signal `\cache_controller.\cache_hit_flag' from process `\cache_controller.$rtl/cache_controller.v:206$proc$14'.
+No latch inferred for signal `\cache_controller.\cache_miss_flag' from process `\cache_controller.$rtl/cache_controller.v:206$proc$14'.
+No latch inferred for signal `\cache_controller.\next_state' from process `\cache_controller.$rtl/cache_controller.v:161$proc$13'.
+No latch inferred for signal `\cache_controller.\selected_word' from process `\cache_controller.$rtl/cache_controller.v:113$proc$4'.
+
+3.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\cache_controller.\current_state' using process `\cache_controller.$rtl/cache_controller.v:126$proc$5'.
+  created $adff cell `$procdff$80' with positive edge clock and positive level reset.
+Creating register for signal `\cache_controller.\latched_addr' using process `\cache_controller.$rtl/cache_controller.v:126$proc$5'.
+  created $adff cell `$procdff$83' with positive edge clock and positive level reset.
+Creating register for signal `\cache_controller.\cached_block' using process `\cache_controller.$rtl/cache_controller.v:126$proc$5'.
+  created $adff cell `$procdff$86' with positive edge clock and positive level reset.
+Creating register for signal `\cache_controller.\mem_block_buffer' using process `\cache_controller.$rtl/cache_controller.v:126$proc$5'.
+  created $adff cell `$procdff$89' with positive edge clock and positive level reset.
+
+3.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+3.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `cache_controller.$rtl/cache_controller.v:206$proc$14'.
+Found and cleaned up 4 empty switches in `\cache_controller.$rtl/cache_controller.v:161$proc$13'.
+Removing empty process `cache_controller.$rtl/cache_controller.v:161$proc$13'.
+Found and cleaned up 4 empty switches in `\cache_controller.$rtl/cache_controller.v:126$proc$5'.
+Removing empty process `cache_controller.$rtl/cache_controller.v:126$proc$5'.
+Found and cleaned up 1 empty switch in `\cache_controller.$rtl/cache_controller.v:113$proc$4'.
+Removing empty process `cache_controller.$rtl/cache_controller.v:113$proc$4'.
+Cleaned up 9 empty switches.
+
+3.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_controller.
+<suppressed ~10 debug messages>
+
+4. Executing OPT pass (performing simple optimizations).
+
+4.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_controller.
+
+4.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_controller'.
+Computing hashes of 50 cells of `\cache_controller'.
+Finding duplicate cells in `\cache_controller'.
+Computing hashes of 35 cells of `\cache_controller'.
+Finding duplicate cells in `\cache_controller'.
+Computing hashes of 33 cells of `\cache_controller'.
+Finding duplicate cells in `\cache_controller'.
+<suppressed ~51 debug messages>
+Removed a total of 17 cells.
+
+4.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \cache_controller..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $procmux$53.
+    dead port 2/2 on $mux $procmux$42.
+    dead port 2/2 on $mux $procmux$32.
+Removed 3 multiplexer ports.
+<suppressed ~21 debug messages>
+
+4.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \cache_controller.
+Performed a total of 0 changes.
+
+4.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_controller'.
+Computing hashes of 30 cells of `\cache_controller'.
+Finding duplicate cells in `\cache_controller'.
+Removed a total of 0 cells.
+
+4.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $procdff$89 ($adff) from module cache_controller (D = \mem_data, Q = \mem_block_buffer).
+Adding EN signal on $procdff$86 ($adff) from module cache_controller (D = $procmux$69_Y, Q = \cached_block).
+Adding EN signal on $procdff$83 ($adff) from module cache_controller (D = \cpu_req_addr, Q = \latched_addr).
+
+4.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \cache_controller..
+Removed 2 unused cells and 67 unused wires.
+<suppressed ~3 debug messages>
+
+4.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_controller.
+<suppressed ~1 debug messages>
+
+4.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \cache_controller..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~14 debug messages>
+
+4.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \cache_controller.
+Performed a total of 0 changes.
+
+4.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_controller'.
+Computing hashes of 29 cells of `\cache_controller'.
+Finding duplicate cells in `\cache_controller'.
+Removed a total of 0 cells.
+
+4.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \cache_controller..
+
+4.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_controller.
+
+4.16. Finished fast OPT passes. (There is nothing left to do.)
+
+5. Executing FSM pass (extract and optimize FSM).
+
+5.1. Executing FSM_DETECT pass (finding FSMs in design).
+Not marking cache_controller.current_state as FSM state register:
+    Register is connected to module port.
+    Users of register don't seem to benefit from recoding.
+
+5.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+
+5.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+5.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \cache_controller..
+
+5.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+5.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+
+5.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+
+5.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+
+6. Executing OPT pass (performing simple optimizations).
+
+6.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_controller.
+
+6.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_controller'.
+Computing hashes of 29 cells of `\cache_controller'.
+Finding duplicate cells in `\cache_controller'.
+Removed a total of 0 cells.
+
+6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \cache_controller..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~14 debug messages>
+
+6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \cache_controller.
+Performed a total of 0 changes.
+
+6.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_controller'.
+Computing hashes of 29 cells of `\cache_controller'.
+Finding duplicate cells in `\cache_controller'.
+Removed a total of 0 cells.
+
+6.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \cache_controller..
+
+6.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_controller.
+
+6.9. Finished fast OPT passes. (There is nothing left to do.)
+
+7. Executing MEMORY pass.
+
+7.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+7.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+7.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+7.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+7.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+7.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \cache_controller..
+
+7.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+7.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+7.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \cache_controller..
+
+7.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+7.11. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+8. Executing OPT pass (performing simple optimizations).
+
+8.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_controller.
+
+8.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_controller'.
+Computing hashes of 29 cells of `\cache_controller'.
+Finding duplicate cells in `\cache_controller'.
+Removed a total of 0 cells.
+
+8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \cache_controller..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~14 debug messages>
+
+8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \cache_controller.
+Performed a total of 0 changes.
+
+8.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_controller'.
+Computing hashes of 29 cells of `\cache_controller'.
+Finding duplicate cells in `\cache_controller'.
+Removed a total of 0 cells.
+
+8.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+8.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \cache_controller..
+
+8.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_controller.
+
+8.9. Finished fast OPT passes. (There is nothing left to do.)
+
+9. Executing TECHMAP pass (map to technology primitives).
+
+9.1. Executing Verilog-2005 frontend: /opt/homebrew/Cellar/yosys/0.71/bin/../share/yosys/techmap.v
+Parsing Verilog input from `/opt/homebrew/Cellar/yosys/0.71/bin/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu_brent_kung'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `$__div_mod_u'.
+Generating RTLIL representation for module `$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Generating RTLIL representation for module `$connect'.
+Generating RTLIL representation for module `$input_port'.
+Successfully finished Verilog frontend.
+
+9.2. Continuing TECHMAP pass.
+Using extmapper simplemap for cells of type $mux.
+Using extmapper simplemap for cells of type $logic_and.
+Using extmapper simplemap for cells of type $eq.
+Using extmapper simplemap for cells of type $pmux.
+Using extmapper simplemap for cells of type $logic_not.
+Using extmapper simplemap for cells of type $adff.
+Using extmapper simplemap for cells of type $adffe.
+Using extmapper simplemap for cells of type $reduce_bool.
+No more expansions possible.
+<suppressed ~106 debug messages>
+
+10. Executing OPT pass (performing simple optimizations).
+
+10.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_controller.
+<suppressed ~199 debug messages>
+
+10.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_controller'.
+Computing hashes of 1040 cells of `\cache_controller'.
+Finding duplicate cells in `\cache_controller'.
+Computing hashes of 1028 cells of `\cache_controller'.
+Finding duplicate cells in `\cache_controller'.
+Computing hashes of 1026 cells of `\cache_controller'.
+Finding duplicate cells in `\cache_controller'.
+<suppressed ~42 debug messages>
+Removed a total of 14 cells.
+
+10.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \cache_controller..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+10.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \cache_controller.
+Performed a total of 0 changes.
+
+10.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_controller'.
+Computing hashes of 1026 cells of `\cache_controller'.
+Finding duplicate cells in `\cache_controller'.
+Removed a total of 0 cells.
+
+10.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+10.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \cache_controller..
+Removed 2 unused cells and 42 unused wires.
+<suppressed ~3 debug messages>
+
+10.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_controller.
+
+10.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+10.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \cache_controller..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+10.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \cache_controller.
+Performed a total of 0 changes.
+
+10.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_controller'.
+Computing hashes of 1024 cells of `\cache_controller'.
+Finding duplicate cells in `\cache_controller'.
+Removed a total of 0 cells.
+
+10.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+10.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \cache_controller..
+
+10.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_controller.
+
+10.16. Finished fast OPT passes. (There is nothing left to do.)
+
+11. Printing statistics.
+
+=== cache_controller ===
+
+        +----------Local Count, excluding submodules.
+        | 
+      276 wires
+     1615 wire bits
+       37 public wires
+      954 public wire bits
+       28 ports
+      598 port bits
+     1024 cells
+      134   $_AND_
+      286   $_DFFE_PP0P_
+        3   $_DFF_PP0_
+      457   $_MUX_
+       17   $_NOT_
+      127   $_OR_
+
+End of script. Logfile hash: e959f1ccae, time: 0.03s, user: 0.03s, system: 0.00s, MEM: 18.00 MB peak
+Yosys 0.71+post (git sha1 5628c13240f670b97aaaca3d47940c4afb8ff572, Release, AppleClang clang++ 17.0.0.17000604)
+Time spent: 21% 3x read_verilog (0 sec), 21% 11x opt_expr (0 sec), ...

@@ -1,0 +1,5 @@
+workload,total_accesses,hits,misses,hit_ratio,miss_ratio,amat_baseline,amat_hardware,compulsory_misses,conflict_misses,capacity_misses,refills
+Sequential Access,128,96,32,0.75,0.25,3.5,5.0,32,0,0,32
+Repeated Access,128,127,1,0.9921875,0.0078125,1.0781,2.0938,1,0,0,1
+Random Access,128,5,123,0.0390625,0.9609375,10.6094,13.5312,121,2,0,123
+Conflict Access,128,0,128,0.0,1.0,11.0,14.0,4,124,0,128
