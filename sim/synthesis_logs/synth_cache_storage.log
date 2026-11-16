@@ -1,0 +1,1398 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.71+post (git sha1 5628c13240f670b97aaaca3d47940c4afb8ff572, Release, AppleClang clang++ 17.0.0.17000604)
+
+-- Running command `read_verilog rtl/valid_bit_ram.v; read_verilog rtl/tag_ram.v; read_verilog rtl/cache_data_ram.v; read_verilog rtl/cache_storage.v; hierarchy -check -top cache_storage; proc; opt; fsm; opt; memory; opt; techmap; opt; stat' --
+
+1. Executing Verilog-2005 frontend: rtl/valid_bit_ram.v
+Parsing Verilog input from `rtl/valid_bit_ram.v' to AST representation.
+Generating RTLIL representation for module `\valid_bit_ram'.
+Warning: Replacing memory \valid_mem with list of registers. See rtl/valid_bit_ram.v:54
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: rtl/tag_ram.v
+Parsing Verilog input from `rtl/tag_ram.v' to AST representation.
+Generating RTLIL representation for module `\tag_ram'.
+Successfully finished Verilog frontend.
+
+3. Executing Verilog-2005 frontend: rtl/cache_data_ram.v
+Parsing Verilog input from `rtl/cache_data_ram.v' to AST representation.
+Generating RTLIL representation for module `\cache_data_ram'.
+Successfully finished Verilog frontend.
+
+4. Executing Verilog-2005 frontend: rtl/cache_storage.v
+Parsing Verilog input from `rtl/cache_storage.v' to AST representation.
+Generating RTLIL representation for module `\cache_storage'.
+Successfully finished Verilog frontend.
+
+5. Executing HIERARCHY pass (managing design hierarchy).
+
+5.1. Analyzing design hierarchy..
+Top module:  \cache_storage
+Used module:     \valid_bit_ram
+Used module:     \tag_ram
+Used module:     \cache_data_ram
+Parameter \NUM_LINES = 64
+Parameter \INDEX_WIDTH = 6
+
+5.2. Executing AST frontend in derive mode using pre-parsed AST for module `\valid_bit_ram'.
+Parameter \NUM_LINES = 64
+Parameter \INDEX_WIDTH = 6
+Generating RTLIL representation for module `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Warning: Replacing memory \valid_mem with list of registers. See rtl/valid_bit_ram.v:54
+Parameter \NUM_LINES = 64
+Parameter \INDEX_WIDTH = 6
+Parameter \TAG_WIDTH = 22
+
+5.3. Executing AST frontend in derive mode using pre-parsed AST for module `\tag_ram'.
+Parameter \NUM_LINES = 64
+Parameter \INDEX_WIDTH = 6
+Parameter \TAG_WIDTH = 22
+Generating RTLIL representation for module `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Parameter \NUM_LINES = 64
+Parameter \INDEX_WIDTH = 6
+Parameter \BLOCK_WIDTH = 128
+
+5.4. Executing AST frontend in derive mode using pre-parsed AST for module `\cache_data_ram'.
+Parameter \NUM_LINES = 64
+Parameter \INDEX_WIDTH = 6
+Parameter \BLOCK_WIDTH = 128
+Generating RTLIL representation for module `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+
+5.5. Analyzing design hierarchy..
+Top module:  \cache_storage
+Used module:     $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram
+Used module:     $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram
+Used module:     $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram
+
+5.6. Analyzing design hierarchy..
+Top module:  \cache_storage
+Used module:     $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram
+Used module:     $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram
+Used module:     $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram
+Removing unused module `\cache_data_ram'.
+Removing unused module `\tag_ram'.
+Removing unused module `\valid_bit_ram'.
+Removed 3 unused modules.
+
+6. Executing PROC pass (convert processes to netlists).
+
+6.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+6.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $rtl/cache_data_ram.v:50$proc$56 in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+Marked 1 switch rules as full_case in process $rtl/tag_ram.v:48$proc$47 in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+Removed 1 dead cases from process $rtl/valid_bit_ram.v:41$proc$42 in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Marked 1 switch rules as full_case in process $rtl/valid_bit_ram.v:41$proc$42 in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Marked 3 switch rules as full_case in process $rtl/valid_bit_ram.v:51$proc$35 in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Removed a total of 1 dead cases.
+
+6.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 10 assignments to connections.
+
+6.4. Executing PROC_INIT pass (extract init attributes).
+
+6.5. Executing PROC_ARST pass (detect async resets in processes).
+Found async reset \rst in `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+
+6.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~5 debug messages>
+
+6.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.$rtl/cache_data_ram.v:50$proc$56'.
+     1/3: $1$memwr$\ram$rtl/cache_data_ram.v:52$54_EN[127:0]$62
+     2/3: $1$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$61
+     3/3: $1$memwr$\ram$rtl/cache_data_ram.v:52$54_ADDR[5:0]$60
+Creating decoders for process `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.$rtl/tag_ram.v:48$proc$47'.
+     1/3: $1$memwr$\tag_mem$rtl/tag_ram.v:50$45_EN[21:0]$53
+     2/3: $1$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$52
+     3/3: $1$memwr$\tag_mem$rtl/tag_ram.v:50$45_ADDR[5:0]$51
+Creating decoders for process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:41$proc$42'.
+     1/1: $1$mem2reg_rd$\valid_mem$rtl/valid_bit_ram.v:41$33_DATA[0:0]$44
+Creating decoders for process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+     1/69: $2$mem2reg_wr$\valid_mem$rtl/valid_bit_ram.v:57$34_ADDR[5:0]$40
+     2/69: $2$mem2reg_wr$\valid_mem$rtl/valid_bit_ram.v:57$34_DATA[0:0]$41
+     3/69: $1$mem2reg_wr$\valid_mem$rtl/valid_bit_ram.v:57$34_DATA[0:0]$39
+     4/69: $1$mem2reg_wr$\valid_mem$rtl/valid_bit_ram.v:57$34_ADDR[5:0]$38
+     5/69: $1\i[31:0]
+     6/69: $0\valid_mem[63][0:0]
+     7/69: $0\valid_mem[62][0:0]
+     8/69: $0\valid_mem[61][0:0]
+     9/69: $0\valid_mem[60][0:0]
+    10/69: $0\valid_mem[59][0:0]
+    11/69: $0\valid_mem[58][0:0]
+    12/69: $0\valid_mem[57][0:0]
+    13/69: $0\valid_mem[56][0:0]
+    14/69: $0\valid_mem[55][0:0]
+    15/69: $0\valid_mem[54][0:0]
+    16/69: $0\valid_mem[53][0:0]
+    17/69: $0\valid_mem[52][0:0]
+    18/69: $0\valid_mem[51][0:0]
+    19/69: $0\valid_mem[50][0:0]
+    20/69: $0\valid_mem[49][0:0]
+    21/69: $0\valid_mem[48][0:0]
+    22/69: $0\valid_mem[47][0:0]
+    23/69: $0\valid_mem[46][0:0]
+    24/69: $0\valid_mem[45][0:0]
+    25/69: $0\valid_mem[44][0:0]
+    26/69: $0\valid_mem[43][0:0]
+    27/69: $0\valid_mem[42][0:0]
+    28/69: $0\valid_mem[41][0:0]
+    29/69: $0\valid_mem[40][0:0]
+    30/69: $0\valid_mem[39][0:0]
+    31/69: $0\valid_mem[38][0:0]
+    32/69: $0\valid_mem[37][0:0]
+    33/69: $0\valid_mem[36][0:0]
+    34/69: $0\valid_mem[35][0:0]
+    35/69: $0\valid_mem[34][0:0]
+    36/69: $0\valid_mem[33][0:0]
+    37/69: $0\valid_mem[32][0:0]
+    38/69: $0\valid_mem[31][0:0]
+    39/69: $0\valid_mem[30][0:0]
+    40/69: $0\valid_mem[29][0:0]
+    41/69: $0\valid_mem[28][0:0]
+    42/69: $0\valid_mem[27][0:0]
+    43/69: $0\valid_mem[26][0:0]
+    44/69: $0\valid_mem[25][0:0]
+    45/69: $0\valid_mem[24][0:0]
+    46/69: $0\valid_mem[23][0:0]
+    47/69: $0\valid_mem[22][0:0]
+    48/69: $0\valid_mem[21][0:0]
+    49/69: $0\valid_mem[20][0:0]
+    50/69: $0\valid_mem[19][0:0]
+    51/69: $0\valid_mem[18][0:0]
+    52/69: $0\valid_mem[17][0:0]
+    53/69: $0\valid_mem[16][0:0]
+    54/69: $0\valid_mem[15][0:0]
+    55/69: $0\valid_mem[14][0:0]
+    56/69: $0\valid_mem[13][0:0]
+    57/69: $0\valid_mem[12][0:0]
+    58/69: $0\valid_mem[11][0:0]
+    59/69: $0\valid_mem[10][0:0]
+    60/69: $0\valid_mem[9][0:0]
+    61/69: $0\valid_mem[8][0:0]
+    62/69: $0\valid_mem[7][0:0]
+    63/69: $0\valid_mem[6][0:0]
+    64/69: $0\valid_mem[5][0:0]
+    65/69: $0\valid_mem[4][0:0]
+    66/69: $0\valid_mem[3][0:0]
+    67/69: $0\valid_mem[2][0:0]
+    68/69: $0\valid_mem[1][0:0]
+    69/69: $0\valid_mem[0][0:0]
+
+6.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$mem2reg_rd$\valid_mem$rtl/valid_bit_ram.v:41$33_DATA' from process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:41$proc$42'.
+
+6.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.$memwr$\ram$rtl/cache_data_ram.v:52$54_ADDR' using process `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.$rtl/cache_data_ram.v:50$proc$56'.
+  created $dff cell `$procdff$2488' with positive edge clock.
+Creating register for signal `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA' using process `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.$rtl/cache_data_ram.v:50$proc$56'.
+  created $dff cell `$procdff$2489' with positive edge clock.
+Creating register for signal `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.$memwr$\ram$rtl/cache_data_ram.v:52$54_EN' using process `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.$rtl/cache_data_ram.v:50$proc$56'.
+  created $dff cell `$procdff$2490' with positive edge clock.
+Creating register for signal `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.$memwr$\tag_mem$rtl/tag_ram.v:50$45_ADDR' using process `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.$rtl/tag_ram.v:48$proc$47'.
+  created $dff cell `$procdff$2491' with positive edge clock.
+Creating register for signal `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA' using process `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.$rtl/tag_ram.v:48$proc$47'.
+  created $dff cell `$procdff$2492' with positive edge clock.
+Creating register for signal `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.$memwr$\tag_mem$rtl/tag_ram.v:50$45_EN' using process `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.$rtl/tag_ram.v:48$proc$47'.
+  created $dff cell `$procdff$2493' with positive edge clock.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\i' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2496' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[0]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2499' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[1]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2502' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[2]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2505' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[3]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2508' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[4]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2511' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[5]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2514' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[6]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2517' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[7]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2520' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[8]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2523' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[9]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2526' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[10]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2529' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[11]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2532' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[12]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2535' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[13]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2538' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[14]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2541' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[15]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2544' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[16]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2547' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[17]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2550' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[18]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2553' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[19]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2556' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[20]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2559' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[21]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2562' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[22]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2565' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[23]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2568' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[24]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2571' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[25]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2574' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[26]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2577' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[27]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2580' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[28]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2583' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[29]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2586' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[30]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2589' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[31]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2592' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[32]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2595' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[33]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2598' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[34]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2601' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[35]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2604' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[36]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2607' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[37]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2610' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[38]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2613' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[39]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2616' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[40]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2619' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[41]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2622' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[42]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2625' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[43]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2628' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[44]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2631' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[45]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2634' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[46]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2637' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[47]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2640' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[48]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2643' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[49]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2646' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[50]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2649' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[51]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2652' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[52]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2655' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[53]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2658' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[54]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2661' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[55]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2664' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[56]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2667' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[57]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2670' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[58]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2673' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[59]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2676' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[60]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2679' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[61]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2682' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[62]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2685' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.\valid_mem[63]' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2688' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$mem2reg_wr$\valid_mem$rtl/valid_bit_ram.v:57$34_ADDR' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2691' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$mem2reg_wr$\valid_mem$rtl/valid_bit_ram.v:57$34_DATA' using process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+  created $adff cell `$procdff$2694' with positive edge clock and positive level reset.
+
+6.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+6.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 1 empty switch in `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.$rtl/cache_data_ram.v:50$proc$56'.
+Removing empty process `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.$rtl/cache_data_ram.v:50$proc$56'.
+Found and cleaned up 1 empty switch in `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.$rtl/tag_ram.v:48$proc$47'.
+Removing empty process `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.$rtl/tag_ram.v:48$proc$47'.
+Found and cleaned up 1 empty switch in `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:41$proc$42'.
+Removing empty process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:41$proc$42'.
+Found and cleaned up 2 empty switches in `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+Removing empty process `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.$rtl/valid_bit_ram.v:51$proc$35'.
+Cleaned up 5 empty switches.
+
+6.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_storage.
+Optimizing module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+Optimizing module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+Optimizing module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+<suppressed ~69 debug messages>
+
+7. Executing OPT pass (performing simple optimizations).
+
+7.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_storage.
+Optimizing module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+Optimizing module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+Optimizing module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+
+7.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_storage'.
+Computing hashes of 4 cells of `\cache_storage'.
+Finding duplicate cells in `\cache_storage'.
+Finding identical cells in module `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Computing hashes of 8 cells of `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding duplicate cells in `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding identical cells in module `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Computing hashes of 8 cells of `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding duplicate cells in `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding identical cells in module `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Computing hashes of 326 cells of `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Finding duplicate cells in `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Computing hashes of 262 cells of `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Finding duplicate cells in `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+<suppressed ~192 debug messages>
+Removed a total of 64 cells.
+
+7.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \cache_storage..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 1/2 on $mux $procmux$150.
+    dead port 2/2 on $mux $procmux$150.
+    dead port 1/2 on $mux $procmux$147.
+    dead port 2/2 on $mux $procmux$147.
+Removed 4 multiplexer ports.
+<suppressed ~208 debug messages>
+
+7.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \cache_storage.
+  Optimizing cells in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+    Consolidated identical input bits for $mux cell $procmux$64:
+      Old ports: A=128'00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, B=128'11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111, Y=$procmux$64_Y
+      New ports: A=1'0, B=1'1, Y=$procmux$64_Y [0]
+      New connections: $procmux$64_Y [127:1] = { $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] $procmux$64_Y [0] }
+  Optimizing cells in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+  Optimizing cells in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+    Consolidated identical input bits for $mux cell $procmux$73:
+      Old ports: A=22'0000000000000000000000, B=22'1111111111111111111111, Y=$procmux$73_Y
+      New ports: A=1'0, B=1'1, Y=$procmux$73_Y [0]
+      New connections: $procmux$73_Y [21:1] = { $procmux$73_Y [0] $procmux$73_Y [0] $procmux$73_Y [0] $procmux$73_Y [0] $procmux$73_Y [0] $procmux$73_Y [0] $procmux$73_Y [0] $procmux$73_Y [0] $procmux$73_Y [0] $procmux$73_Y [0] $procmux$73_Y [0] $procmux$73_Y [0] $procmux$73_Y [0] $procmux$73_Y [0] $procmux$73_Y [0] $procmux$73_Y [0] $procmux$73_Y [0] $procmux$73_Y [0] $procmux$73_Y [0] $procmux$73_Y [0] $procmux$73_Y [0] }
+  Optimizing cells in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+  Optimizing cells in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Performed a total of 2 changes.
+
+7.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_storage'.
+Computing hashes of 4 cells of `\cache_storage'.
+Finding duplicate cells in `\cache_storage'.
+Finding identical cells in module `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Computing hashes of 8 cells of `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding duplicate cells in `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding identical cells in module `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Computing hashes of 8 cells of `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding duplicate cells in `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding identical cells in module `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Computing hashes of 260 cells of `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Finding duplicate cells in `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Removed a total of 0 cells.
+
+7.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $procdff$2499 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[0]).
+Adding EN signal on $procdff$2502 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[1]).
+Adding EN signal on $procdff$2643 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[48]).
+Adding EN signal on $procdff$2505 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[2]).
+Adding EN signal on $procdff$2688 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[63]).
+Adding EN signal on $procdff$2508 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[3]).
+Adding EN signal on $procdff$2598 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[33]).
+Adding EN signal on $procdff$2511 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[4]).
+Adding EN signal on $procdff$2685 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[62]).
+Adding EN signal on $procdff$2514 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[5]).
+Adding EN signal on $procdff$2631 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[44]).
+Adding EN signal on $procdff$2517 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[6]).
+Adding EN signal on $procdff$2682 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[61]).
+Adding EN signal on $procdff$2520 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[7]).
+Adding EN signal on $procdff$2601 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[34]).
+Adding EN signal on $procdff$2523 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[8]).
+Adding EN signal on $procdff$2679 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[60]).
+Adding EN signal on $procdff$2526 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[9]).
+Adding EN signal on $procdff$2640 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[47]).
+Adding EN signal on $procdff$2529 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[10]).
+Adding EN signal on $procdff$2676 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[59]).
+Adding EN signal on $procdff$2532 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[11]).
+Adding EN signal on $procdff$2604 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[35]).
+Adding EN signal on $procdff$2535 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[12]).
+Adding EN signal on $procdff$2673 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[58]).
+Adding EN signal on $procdff$2538 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[13]).
+Adding EN signal on $procdff$2622 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[41]).
+Adding EN signal on $procdff$2541 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[14]).
+Adding EN signal on $procdff$2670 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[57]).
+Adding EN signal on $procdff$2544 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[15]).
+Adding EN signal on $procdff$2607 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[36]).
+Adding EN signal on $procdff$2547 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[16]).
+Adding EN signal on $procdff$2667 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[56]).
+Adding EN signal on $procdff$2550 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[17]).
+Adding EN signal on $procdff$2637 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[46]).
+Adding EN signal on $procdff$2553 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[18]).
+Adding EN signal on $procdff$2664 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[55]).
+Adding EN signal on $procdff$2556 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[19]).
+Adding EN signal on $procdff$2610 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[37]).
+Adding EN signal on $procdff$2559 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[20]).
+Adding EN signal on $procdff$2661 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[54]).
+Adding EN signal on $procdff$2562 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[21]).
+Adding EN signal on $procdff$2628 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[43]).
+Adding EN signal on $procdff$2565 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[22]).
+Adding EN signal on $procdff$2658 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[53]).
+Adding EN signal on $procdff$2568 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[23]).
+Adding EN signal on $procdff$2613 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[38]).
+Adding EN signal on $procdff$2571 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[24]).
+Adding EN signal on $procdff$2655 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[52]).
+Adding EN signal on $procdff$2574 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[25]).
+Adding EN signal on $procdff$2634 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[45]).
+Adding EN signal on $procdff$2577 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[26]).
+Adding EN signal on $procdff$2652 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[51]).
+Adding EN signal on $procdff$2580 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[27]).
+Adding EN signal on $procdff$2616 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[39]).
+Adding EN signal on $procdff$2583 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[28]).
+Adding EN signal on $procdff$2649 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[50]).
+Adding EN signal on $procdff$2586 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[29]).
+Adding EN signal on $procdff$2625 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[42]).
+Adding EN signal on $procdff$2589 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[30]).
+Adding EN signal on $procdff$2646 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[49]).
+Adding EN signal on $procdff$2592 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[31]).
+Adding EN signal on $procdff$2619 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[40]).
+Handling D = Q on $procdff$2496 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (removing D path).
+Adding EN signal on $procdff$2595 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram (D = \write_valid, Q = \valid_mem[32]).
+Setting constant 0-bit at position 0 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 1 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 2 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 3 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 4 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 5 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 1-bit at position 6 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 7 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 8 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 9 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 10 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 11 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 12 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 13 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 14 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 15 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 16 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 17 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 18 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 19 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 20 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 21 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 22 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 23 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 24 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 25 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 26 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 27 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 28 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 29 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 30 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 31 on $procdff$2496 ($dlatch) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 0 on $procdff$2694 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 0 on $procdff$2691 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 1 on $procdff$2691 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 2 on $procdff$2691 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 3 on $procdff$2691 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 4 on $procdff$2691 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Setting constant 0-bit at position 5 on $procdff$2691 ($adff) from module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+
+7.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \cache_storage..
+Finding unused cells or wires in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram..
+Finding unused cells or wires in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram..
+Finding unused cells or wires in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram..
+Removed 134 unused cells and 433 unused wires.
+<suppressed ~138 debug messages>
+
+7.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_storage.
+Optimizing module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+Optimizing module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+Optimizing module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+
+7.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+7.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \cache_storage..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~16 debug messages>
+
+7.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \cache_storage.
+  Optimizing cells in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+  Optimizing cells in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+  Optimizing cells in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Performed a total of 0 changes.
+
+7.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_storage'.
+Computing hashes of 4 cells of `\cache_storage'.
+Finding duplicate cells in `\cache_storage'.
+Finding identical cells in module `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Computing hashes of 5 cells of `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding duplicate cells in `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding identical cells in module `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Computing hashes of 5 cells of `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding duplicate cells in `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding identical cells in module `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Computing hashes of 193 cells of `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Finding duplicate cells in `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Removed a total of 0 cells.
+
+7.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \cache_storage..
+Finding unused cells or wires in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram..
+Finding unused cells or wires in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram..
+Finding unused cells or wires in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram..
+
+7.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_storage.
+Optimizing module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+Optimizing module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+Optimizing module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+
+7.16. Finished fast OPT passes. (There is nothing left to do.)
+
+8. Executing FSM pass (extract and optimize FSM).
+
+8.1. Executing FSM_DETECT pass (finding FSMs in design).
+
+8.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+
+8.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+8.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \cache_storage..
+Finding unused cells or wires in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram..
+Finding unused cells or wires in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram..
+Finding unused cells or wires in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram..
+
+8.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+8.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+
+8.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+
+8.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+
+9. Executing OPT pass (performing simple optimizations).
+
+9.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_storage.
+Optimizing module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+Optimizing module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+Optimizing module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+
+9.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_storage'.
+Computing hashes of 4 cells of `\cache_storage'.
+Finding duplicate cells in `\cache_storage'.
+Finding identical cells in module `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Computing hashes of 5 cells of `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding duplicate cells in `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding identical cells in module `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Computing hashes of 5 cells of `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding duplicate cells in `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding identical cells in module `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Computing hashes of 193 cells of `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Finding duplicate cells in `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Removed a total of 0 cells.
+
+9.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \cache_storage..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~16 debug messages>
+
+9.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \cache_storage.
+  Optimizing cells in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+  Optimizing cells in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+  Optimizing cells in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Performed a total of 0 changes.
+
+9.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_storage'.
+Computing hashes of 4 cells of `\cache_storage'.
+Finding duplicate cells in `\cache_storage'.
+Finding identical cells in module `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Computing hashes of 5 cells of `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding duplicate cells in `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding identical cells in module `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Computing hashes of 5 cells of `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding duplicate cells in `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding identical cells in module `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Computing hashes of 193 cells of `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Finding duplicate cells in `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Removed a total of 0 cells.
+
+9.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+9.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \cache_storage..
+Finding unused cells or wires in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram..
+Finding unused cells or wires in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram..
+Finding unused cells or wires in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram..
+
+9.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_storage.
+Optimizing module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+Optimizing module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+Optimizing module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+
+9.9. Finished fast OPT passes. (There is nothing left to do.)
+
+10. Executing MEMORY pass.
+
+10.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+10.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+10.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+  Analyzing $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.ram write port 0.
+  Analyzing $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.tag_mem write port 0.
+
+10.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+10.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+Checking read port `\ram'[0] in module `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram':
+    no output FF found.
+Checking read port address `\ram'[0] in module `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram':
+    no address FF found.
+Checking read port `\tag_mem'[0] in module `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram':
+    no output FF found.
+Checking read port address `\tag_mem'[0] in module `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram':
+    no address FF found.
+
+10.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \cache_storage..
+Finding unused cells or wires in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram..
+Finding unused cells or wires in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram..
+Finding unused cells or wires in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram..
+
+10.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+10.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+10.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \cache_storage..
+Finding unused cells or wires in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram..
+Finding unused cells or wires in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram..
+Finding unused cells or wires in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram..
+
+10.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+10.11. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+Mapping memory \ram in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram:
+  created 64 $dff cells and 0 static cells of width 128.
+  read interface: 0 $dff and 63 $mux cells.
+  write interface: 64 write mux blocks.
+Mapping memory \tag_mem in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram:
+  created 64 $dff cells and 0 static cells of width 22.
+  read interface: 0 $dff and 63 $mux cells.
+  write interface: 64 write mux blocks.
+
+11. Executing OPT pass (performing simple optimizations).
+
+11.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_storage.
+Optimizing module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+<suppressed ~12 debug messages>
+Optimizing module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+<suppressed ~12 debug messages>
+Optimizing module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+
+11.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_storage'.
+Computing hashes of 4 cells of `\cache_storage'.
+Finding duplicate cells in `\cache_storage'.
+Finding identical cells in module `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Computing hashes of 352 cells of `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding duplicate cells in `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding identical cells in module `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Computing hashes of 352 cells of `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding duplicate cells in `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding identical cells in module `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Computing hashes of 193 cells of `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Finding duplicate cells in `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Removed a total of 0 cells.
+
+11.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \cache_storage..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~528 debug messages>
+
+11.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \cache_storage.
+  Optimizing cells in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+  Optimizing cells in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+  Optimizing cells in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Performed a total of 0 changes.
+
+11.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_storage'.
+Computing hashes of 4 cells of `\cache_storage'.
+Finding duplicate cells in `\cache_storage'.
+Finding identical cells in module `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Computing hashes of 352 cells of `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding duplicate cells in `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding identical cells in module `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Computing hashes of 352 cells of `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding duplicate cells in `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding identical cells in module `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Computing hashes of 193 cells of `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Finding duplicate cells in `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Removed a total of 0 cells.
+
+11.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+11.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \cache_storage..
+Finding unused cells or wires in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram..
+Finding unused cells or wires in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram..
+Finding unused cells or wires in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram..
+Removed 0 unused cells and 268 unused wires.
+<suppressed ~2 debug messages>
+
+11.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_storage.
+Optimizing module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+Optimizing module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+Optimizing module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+
+11.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+11.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \cache_storage..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~528 debug messages>
+
+11.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \cache_storage.
+  Optimizing cells in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+  Optimizing cells in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+  Optimizing cells in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Performed a total of 0 changes.
+
+11.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_storage'.
+Computing hashes of 4 cells of `\cache_storage'.
+Finding duplicate cells in `\cache_storage'.
+Finding identical cells in module `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Computing hashes of 352 cells of `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding duplicate cells in `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding identical cells in module `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Computing hashes of 352 cells of `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding duplicate cells in `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding identical cells in module `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Computing hashes of 193 cells of `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Finding duplicate cells in `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Removed a total of 0 cells.
+
+11.13. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $memory\ram[0]$2896 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[0]).
+Adding EN signal on $memory\ram[1]$2898 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[1]).
+Adding EN signal on $memory\ram[2]$2900 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[2]).
+Adding EN signal on $memory\ram[3]$2902 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[3]).
+Adding EN signal on $memory\ram[4]$2904 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[4]).
+Adding EN signal on $memory\ram[5]$2906 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[5]).
+Adding EN signal on $memory\ram[6]$2908 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[6]).
+Adding EN signal on $memory\ram[7]$2910 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[7]).
+Adding EN signal on $memory\ram[8]$2912 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[8]).
+Adding EN signal on $memory\ram[9]$2914 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[9]).
+Adding EN signal on $memory\ram[10]$2916 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[10]).
+Adding EN signal on $memory\ram[11]$2918 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[11]).
+Adding EN signal on $memory\ram[12]$2920 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[12]).
+Adding EN signal on $memory\ram[13]$2922 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[13]).
+Adding EN signal on $memory\ram[14]$2924 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[14]).
+Adding EN signal on $memory\ram[15]$2926 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[15]).
+Adding EN signal on $memory\ram[16]$2928 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[16]).
+Adding EN signal on $memory\ram[17]$2930 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[17]).
+Adding EN signal on $memory\ram[18]$2932 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[18]).
+Adding EN signal on $memory\ram[19]$2934 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[19]).
+Adding EN signal on $memory\ram[20]$2936 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[20]).
+Adding EN signal on $memory\ram[21]$2938 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[21]).
+Adding EN signal on $memory\ram[22]$2940 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[22]).
+Adding EN signal on $memory\ram[23]$2942 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[23]).
+Adding EN signal on $memory\ram[24]$2944 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[24]).
+Adding EN signal on $memory\ram[25]$2946 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[25]).
+Adding EN signal on $memory\ram[26]$2948 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[26]).
+Adding EN signal on $memory\ram[27]$2950 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[27]).
+Adding EN signal on $memory\ram[28]$2952 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[28]).
+Adding EN signal on $memory\ram[29]$2954 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[29]).
+Adding EN signal on $memory\ram[30]$2956 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[30]).
+Adding EN signal on $memory\ram[31]$2958 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[31]).
+Adding EN signal on $memory\ram[32]$2960 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[32]).
+Adding EN signal on $memory\ram[33]$2962 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[33]).
+Adding EN signal on $memory\ram[34]$2964 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[34]).
+Adding EN signal on $memory\ram[35]$2966 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[35]).
+Adding EN signal on $memory\ram[36]$2968 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[36]).
+Adding EN signal on $memory\ram[37]$2970 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[37]).
+Adding EN signal on $memory\ram[38]$2972 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[38]).
+Adding EN signal on $memory\ram[39]$2974 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[39]).
+Adding EN signal on $memory\ram[40]$2976 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[40]).
+Adding EN signal on $memory\ram[41]$2978 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[41]).
+Adding EN signal on $memory\ram[42]$2980 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[42]).
+Adding EN signal on $memory\ram[43]$2982 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[43]).
+Adding EN signal on $memory\ram[44]$2984 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[44]).
+Adding EN signal on $memory\ram[45]$2986 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[45]).
+Adding EN signal on $memory\ram[46]$2988 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[46]).
+Adding EN signal on $memory\ram[47]$2990 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[47]).
+Adding EN signal on $memory\ram[48]$2992 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[48]).
+Adding EN signal on $memory\ram[49]$2994 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[49]).
+Adding EN signal on $memory\ram[50]$2996 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[50]).
+Adding EN signal on $memory\ram[51]$2998 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[51]).
+Adding EN signal on $memory\ram[52]$3000 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[52]).
+Adding EN signal on $memory\ram[53]$3002 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[53]).
+Adding EN signal on $memory\ram[54]$3004 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[54]).
+Adding EN signal on $memory\ram[55]$3006 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[55]).
+Adding EN signal on $memory\ram[56]$3008 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[56]).
+Adding EN signal on $memory\ram[57]$3010 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[57]).
+Adding EN signal on $memory\ram[58]$3012 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[58]).
+Adding EN signal on $memory\ram[59]$3014 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[59]).
+Adding EN signal on $memory\ram[60]$3016 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[60]).
+Adding EN signal on $memory\ram[61]$3018 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[61]).
+Adding EN signal on $memory\ram[62]$3020 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[62]).
+Adding EN signal on $memory\ram[63]$3022 ($dff) from module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram (D = $0$memwr$\ram$rtl/cache_data_ram.v:52$54_DATA[127:0]$58, Q = \ram[63]).
+Adding EN signal on $memory\tag_mem[0]$3669 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[0]).
+Adding EN signal on $memory\tag_mem[1]$3671 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[1]).
+Adding EN signal on $memory\tag_mem[2]$3673 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[2]).
+Adding EN signal on $memory\tag_mem[3]$3675 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[3]).
+Adding EN signal on $memory\tag_mem[4]$3677 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[4]).
+Adding EN signal on $memory\tag_mem[5]$3679 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[5]).
+Adding EN signal on $memory\tag_mem[6]$3681 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[6]).
+Adding EN signal on $memory\tag_mem[7]$3683 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[7]).
+Adding EN signal on $memory\tag_mem[8]$3685 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[8]).
+Adding EN signal on $memory\tag_mem[9]$3687 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[9]).
+Adding EN signal on $memory\tag_mem[10]$3689 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[10]).
+Adding EN signal on $memory\tag_mem[11]$3691 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[11]).
+Adding EN signal on $memory\tag_mem[12]$3693 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[12]).
+Adding EN signal on $memory\tag_mem[13]$3695 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[13]).
+Adding EN signal on $memory\tag_mem[14]$3697 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[14]).
+Adding EN signal on $memory\tag_mem[15]$3699 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[15]).
+Adding EN signal on $memory\tag_mem[16]$3701 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[16]).
+Adding EN signal on $memory\tag_mem[17]$3703 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[17]).
+Adding EN signal on $memory\tag_mem[18]$3705 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[18]).
+Adding EN signal on $memory\tag_mem[19]$3707 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[19]).
+Adding EN signal on $memory\tag_mem[20]$3709 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[20]).
+Adding EN signal on $memory\tag_mem[21]$3711 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[21]).
+Adding EN signal on $memory\tag_mem[22]$3713 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[22]).
+Adding EN signal on $memory\tag_mem[23]$3715 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[23]).
+Adding EN signal on $memory\tag_mem[24]$3717 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[24]).
+Adding EN signal on $memory\tag_mem[25]$3719 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[25]).
+Adding EN signal on $memory\tag_mem[26]$3721 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[26]).
+Adding EN signal on $memory\tag_mem[27]$3723 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[27]).
+Adding EN signal on $memory\tag_mem[28]$3725 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[28]).
+Adding EN signal on $memory\tag_mem[29]$3727 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[29]).
+Adding EN signal on $memory\tag_mem[30]$3729 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[30]).
+Adding EN signal on $memory\tag_mem[31]$3731 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[31]).
+Adding EN signal on $memory\tag_mem[32]$3733 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[32]).
+Adding EN signal on $memory\tag_mem[33]$3735 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[33]).
+Adding EN signal on $memory\tag_mem[34]$3737 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[34]).
+Adding EN signal on $memory\tag_mem[35]$3739 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[35]).
+Adding EN signal on $memory\tag_mem[36]$3741 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[36]).
+Adding EN signal on $memory\tag_mem[37]$3743 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[37]).
+Adding EN signal on $memory\tag_mem[38]$3745 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[38]).
+Adding EN signal on $memory\tag_mem[39]$3747 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[39]).
+Adding EN signal on $memory\tag_mem[40]$3749 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[40]).
+Adding EN signal on $memory\tag_mem[41]$3751 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[41]).
+Adding EN signal on $memory\tag_mem[42]$3753 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[42]).
+Adding EN signal on $memory\tag_mem[43]$3755 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[43]).
+Adding EN signal on $memory\tag_mem[44]$3757 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[44]).
+Adding EN signal on $memory\tag_mem[45]$3759 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[45]).
+Adding EN signal on $memory\tag_mem[46]$3761 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[46]).
+Adding EN signal on $memory\tag_mem[47]$3763 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[47]).
+Adding EN signal on $memory\tag_mem[48]$3765 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[48]).
+Adding EN signal on $memory\tag_mem[49]$3767 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[49]).
+Adding EN signal on $memory\tag_mem[50]$3769 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[50]).
+Adding EN signal on $memory\tag_mem[51]$3771 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[51]).
+Adding EN signal on $memory\tag_mem[52]$3773 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[52]).
+Adding EN signal on $memory\tag_mem[53]$3775 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[53]).
+Adding EN signal on $memory\tag_mem[54]$3777 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[54]).
+Adding EN signal on $memory\tag_mem[55]$3779 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[55]).
+Adding EN signal on $memory\tag_mem[56]$3781 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[56]).
+Adding EN signal on $memory\tag_mem[57]$3783 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[57]).
+Adding EN signal on $memory\tag_mem[58]$3785 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[58]).
+Adding EN signal on $memory\tag_mem[59]$3787 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[59]).
+Adding EN signal on $memory\tag_mem[60]$3789 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[60]).
+Adding EN signal on $memory\tag_mem[61]$3791 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[61]).
+Adding EN signal on $memory\tag_mem[62]$3793 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[62]).
+Adding EN signal on $memory\tag_mem[63]$3795 ($dff) from module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram (D = $0$memwr$\tag_mem$rtl/tag_ram.v:50$45_DATA[21:0]$49, Q = \tag_mem[63]).
+
+11.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \cache_storage..
+Finding unused cells or wires in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram..
+Finding unused cells or wires in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram..
+Finding unused cells or wires in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram..
+Removed 128 unused cells and 128 unused wires.
+<suppressed ~130 debug messages>
+
+11.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_storage.
+Optimizing module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+Optimizing module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+Optimizing module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+
+11.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+11.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \cache_storage..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~144 debug messages>
+
+11.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \cache_storage.
+  Optimizing cells in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+  Optimizing cells in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+  Optimizing cells in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Performed a total of 0 changes.
+
+11.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_storage'.
+Computing hashes of 4 cells of `\cache_storage'.
+Finding duplicate cells in `\cache_storage'.
+Finding identical cells in module `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Computing hashes of 288 cells of `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding duplicate cells in `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding identical cells in module `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Computing hashes of 288 cells of `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding duplicate cells in `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding identical cells in module `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Computing hashes of 193 cells of `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Finding duplicate cells in `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Removed a total of 0 cells.
+
+11.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+11.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \cache_storage..
+Finding unused cells or wires in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram..
+Finding unused cells or wires in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram..
+Finding unused cells or wires in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram..
+
+11.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_storage.
+Optimizing module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+Optimizing module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+Optimizing module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+
+11.23. Finished fast OPT passes. (There is nothing left to do.)
+
+12. Executing TECHMAP pass (map to technology primitives).
+
+12.1. Executing Verilog-2005 frontend: /opt/homebrew/Cellar/yosys/0.71/bin/../share/yosys/techmap.v
+Parsing Verilog input from `/opt/homebrew/Cellar/yosys/0.71/bin/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu_brent_kung'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `$__div_mod_u'.
+Generating RTLIL representation for module `$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Generating RTLIL representation for module `$connect'.
+Generating RTLIL representation for module `$input_port'.
+Successfully finished Verilog frontend.
+
+12.2. Continuing TECHMAP pass.
+Using extmapper simplemap for cells of type $pmux.
+Using extmapper simplemap for cells of type $eq.
+Using extmapper simplemap for cells of type $logic_not.
+Using extmapper simplemap for cells of type $adffe.
+Using extmapper simplemap for cells of type $reduce_and.
+Using extmapper simplemap for cells of type $mux.
+Using extmapper simplemap for cells of type $not.
+Using extmapper simplemap for cells of type $and.
+Using extmapper simplemap for cells of type $dffe.
+No more expansions possible.
+<suppressed ~847 debug messages>
+
+13. Executing OPT pass (performing simple optimizations).
+
+13.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_storage.
+Optimizing module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+<suppressed ~1 debug messages>
+Optimizing module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+<suppressed ~1 debug messages>
+Optimizing module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+<suppressed ~378 debug messages>
+
+13.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_storage'.
+Computing hashes of 9 cells of `\cache_storage'.
+Finding duplicate cells in `\cache_storage'.
+Finding identical cells in module `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Computing hashes of 16548 cells of `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding duplicate cells in `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding identical cells in module `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Computing hashes of 2980 cells of `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding duplicate cells in `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding identical cells in module `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Computing hashes of 895 cells of `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Finding duplicate cells in `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Computing hashes of 664 cells of `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Finding duplicate cells in `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Computing hashes of 526 cells of `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Finding duplicate cells in `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Computing hashes of 481 cells of `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Finding duplicate cells in `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+<suppressed ~1242 debug messages>
+Removed a total of 414 cells.
+
+13.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \cache_storage..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+13.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \cache_storage.
+  Optimizing cells in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+  Optimizing cells in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+  Optimizing cells in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Performed a total of 0 changes.
+
+13.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_storage'.
+Computing hashes of 9 cells of `\cache_storage'.
+Finding duplicate cells in `\cache_storage'.
+Finding identical cells in module `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Computing hashes of 16548 cells of `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding duplicate cells in `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding identical cells in module `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Computing hashes of 2980 cells of `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding duplicate cells in `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding identical cells in module `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Computing hashes of 481 cells of `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Finding duplicate cells in `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Removed a total of 0 cells.
+
+13.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+13.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \cache_storage..
+Finding unused cells or wires in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram..
+Finding unused cells or wires in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram..
+Finding unused cells or wires in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram..
+Removed 0 unused cells and 480 unused wires.
+<suppressed ~3 debug messages>
+
+13.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_storage.
+Optimizing module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+Optimizing module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+Optimizing module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+
+13.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+13.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \cache_storage..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+13.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \cache_storage.
+  Optimizing cells in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+  Optimizing cells in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+  Optimizing cells in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+Performed a total of 0 changes.
+
+13.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\cache_storage'.
+Computing hashes of 9 cells of `\cache_storage'.
+Finding duplicate cells in `\cache_storage'.
+Finding identical cells in module `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Computing hashes of 16548 cells of `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding duplicate cells in `$paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram'.
+Finding identical cells in module `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Computing hashes of 2980 cells of `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding duplicate cells in `$paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram'.
+Finding identical cells in module `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Computing hashes of 481 cells of `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Finding duplicate cells in `$paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram'.
+Removed a total of 0 cells.
+
+13.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+13.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \cache_storage..
+Finding unused cells or wires in module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram..
+Finding unused cells or wires in module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram..
+Finding unused cells or wires in module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram..
+
+13.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module cache_storage.
+Optimizing module $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram.
+Optimizing module $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram.
+Optimizing module $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram.
+
+13.16. Finished fast OPT passes. (There is nothing left to do.)
+
+14. Printing statistics.
+
+=== cache_storage ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       12 wires
+      323 wire bits
+       12 public wires
+      323 public wire bits
+       11 ports
+      317 port bits
+        6 cells
+        6   $_MUX_
+        3 submodules
+        1   $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram
+        1   $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram
+        1   $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram
+
+=== $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram ===
+
+        +----------Local Count, excluding submodules.
+        | 
+      291 wires
+    16684 wire bits
+       69 public wires
+     8456 public wire bits
+        5 ports
+      264 port bits
+    16548 cells
+      152   $_AND_
+     8192   $_DFFE_PP_
+     8198   $_MUX_
+        6   $_NOT_
+
+=== $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram ===
+
+        +----------Local Count, excluding submodules.
+        | 
+      291 wires
+     3010 wire bits
+       69 public wires
+     1460 public wire bits
+        5 ports
+       52 port bits
+     2980 cells
+      152   $_AND_
+     1408   $_DFFE_PP_
+     1414   $_MUX_
+        6   $_NOT_
+
+=== $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram ===
+
+        +----------Local Count, excluding submodules.
+        | 
+      371 wires
+      541 wire bits
+       71 public wires
+      107 public wire bits
+        6 ports
+       11 port bits
+      481 cells
+      128   $_AND_
+       64   $_DFFE_PP0P_
+        1   $_MUX_
+       70   $_NOT_
+      218   $_OR_
+
+=== design hierarchy ===
+
+        +----------Count including submodules.
+        | 
+    20015 cache_storage
+    16548 $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram
+     2980 $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram
+      481 $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram
+
+        +----------Count including submodules.
+        | 
+      965 wires
+    20558 wire bits
+      221 public wires
+    10346 public wire bits
+       27 ports
+      644 port bits
+        - memories
+        - memory bits
+        - processes
+    20015 cells
+      432   $_AND_
+       64   $_DFFE_PP0P_
+     9600   $_DFFE_PP_
+     9619   $_MUX_
+       82   $_NOT_
+      218   $_OR_
+        3 submodules
+        1   $paramod$4272797ce548d98f6eb5f4683daa4c769f75ab46\cache_data_ram
+        1   $paramod$795f81b8c403f716819727ed3a467264497cdaf7\tag_ram
+        1   $paramod$e019f90c0ea90be45f7788f2829c919ea374a9da\valid_bit_ram
+
+Warnings: 1 unique messages, 2 total
+End of script. Logfile hash: 80d5a04205, time: 0.32s, user: 0.33s, system: 0.03s, MEM: 76.08 MB peak
+Yosys 0.71+post (git sha1 5628c13240f670b97aaaca3d47940c4afb8ff572, Release, AppleClang clang++ 17.0.0.17000604)
+Time spent: 28% 11x opt_clean (0 sec), 27% 13x opt_expr (0 sec), ...
