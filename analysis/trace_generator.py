@@ -19,6 +19,7 @@ Cache Geometry:
 
 import os
 import csv
+import random
 import argparse
 
 TAG_WIDTH = 22
@@ -61,6 +62,37 @@ def generate_sequential_trace(start_addr: int = 0x00003000, num_accesses: int = 
     return addresses
 
 
+def generate_repeated_trace(base_addr: int = 0x00002004, num_accesses: int = 128, loop_size: int = 1):
+    """
+    Generate repeated accesses to the same address or small set of addresses
+    to evaluate temporal locality.
+    If loop_size=1, accesses the exact same address repeatedly (1 cold miss + (N-1) hits).
+    If loop_size>1, cycles through a small loop of addresses fitting within cache.
+    """
+    addresses = []
+    loop_addrs = [(base_addr + (i * 4)) & 0xFFFFFFFF for i in range(loop_size)]
+    for i in range(num_accesses):
+        addresses.append(loop_addrs[i % loop_size])
+    return addresses
+
+
+def generate_random_trace(num_accesses: int = 128, seed: int = 0x5EEDC0DE, tag_pool_size: int = 16):
+    """
+    Generate reproducible pseudo-random word-aligned addresses using a configurable seed.
+    Uses constrained index and tag distributions to evaluate cache behavior under
+    irregular, less predictable memory access patterns.
+    """
+    rng = random.Random(seed)
+    addresses = []
+    for _ in range(num_accesses):
+        rnd_tag = rng.randint(0, tag_pool_size - 1)
+        rnd_idx = rng.randint(0, NUM_LINES - 1)
+        rnd_word = rng.randint(0, 3)
+        addr = ((rnd_tag << 10) | (rnd_idx << 4) | (rnd_word << 2)) & 0xFFFFFFFF
+        addresses.append(addr)
+    return addresses
+
+
 def save_trace_txt(addresses, filepath: str):
     """Save addresses to plain text file (one hex address per line)."""
     os.makedirs(os.path.dirname(os.path.abspath(filepath)), exist_ok=True)
@@ -93,14 +125,28 @@ def save_trace_csv(addresses, filepath: str):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Trace Generator for Direct-Mapped Cache Controller")
-    parser.add_argument("--pattern", choices=["sequential"], default="sequential", help="Access pattern")
+    parser.add_argument("--pattern", choices=["sequential", "repeated", "random", "all"], default="all", help="Access pattern")
     parser.add_argument("--start", type=lambda x: int(x, 0), default=0x00003000, help="Start address (hex or dec)")
     parser.add_argument("--count", type=int, default=128, help="Number of accesses")
     parser.add_argument("--stride", type=int, default=4, help="Byte stride between accesses")
-    parser.add_argument("--out_txt", type=str, default="traces/sequential_trace.txt", help="Output text file")
-    parser.add_argument("--out_csv", type=str, default="traces/sequential_trace.csv", help="Output CSV file")
+    parser.add_argument("--seed", type=lambda x: int(x, 0), default=0x5EEDC0DE, help="Random seed")
+    parser.add_argument("--loop_size", type=int, default=1, help="Loop size for repeated pattern")
+    parser.add_argument("--output_dir", type=str, default="traces", help="Output directory")
     args = parser.parse_args()
 
-    seq_trace = generate_sequential_trace(args.start, args.count, args.stride)
-    save_trace_txt(seq_trace, args.out_txt)
-    save_trace_csv(seq_trace, args.out_csv)
+    os.makedirs(args.output_dir, exist_ok=True)
+
+    if args.pattern in ["sequential", "all"]:
+        seq_trace = generate_sequential_trace(args.start, args.count, args.stride)
+        save_trace_txt(seq_trace, os.path.join(args.output_dir, "sequential_trace.txt"))
+        save_trace_csv(seq_trace, os.path.join(args.output_dir, "sequential_trace.csv"))
+
+    if args.pattern in ["repeated", "all"]:
+        rep_trace = generate_repeated_trace(0x00002004, args.count, args.loop_size)
+        save_trace_txt(rep_trace, os.path.join(args.output_dir, "repeated_trace.txt"))
+        save_trace_csv(rep_trace, os.path.join(args.output_dir, "repeated_trace.csv"))
+
+    if args.pattern in ["random", "all"]:
+        rand_trace = generate_random_trace(args.count, args.seed)
+        save_trace_txt(rand_trace, os.path.join(args.output_dir, "random_trace.txt"))
+        save_trace_csv(rand_trace, os.path.join(args.output_dir, "random_trace.csv"))
