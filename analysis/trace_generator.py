@@ -93,6 +93,32 @@ def generate_random_trace(num_accesses: int = 128, seed: int = 0x5EEDC0DE, tag_p
     return addresses
 
 
+def generate_conflict_trace(num_accesses: int = 128, target_index: int = 0, num_conflicting_tags: int = 4, word_offset: int = 0):
+    """
+    Generate memory accesses that map to the exact same cache index but possess distinct tags.
+    In our 1 KB cache (64 lines * 16 bytes = 1024 = 0x400 bytes), stride of 0x400 preserves
+    the exact same index bits [9:4] and offset bits [3:0] while incrementing the tag [31:10].
+    
+    Example for target_index=0:
+      0x00000000 (Tag 0, Index 0)
+      0x00000400 (Tag 1, Index 0)
+      0x00000800 (Tag 2, Index 0)
+      0x00000C00 (Tag 3, Index 0)
+      
+    Alternating across these addresses forces continuous ping-pong eviction (thrashing),
+    demonstrating direct-mapped conflict misses.
+    """
+    conflicting_addrs = []
+    for tag_val in range(num_conflicting_tags):
+        addr = ((tag_val << 10) | (target_index << 4) | (word_offset << 2)) & 0xFFFFFFFF
+        conflicting_addrs.append(addr)
+    
+    addresses = []
+    for i in range(num_accesses):
+        addresses.append(conflicting_addrs[i % num_conflicting_tags])
+    return addresses
+
+
 def save_trace_txt(addresses, filepath: str):
     """Save addresses to plain text file (one hex address per line)."""
     os.makedirs(os.path.dirname(os.path.abspath(filepath)), exist_ok=True)
@@ -125,12 +151,14 @@ def save_trace_csv(addresses, filepath: str):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Trace Generator for Direct-Mapped Cache Controller")
-    parser.add_argument("--pattern", choices=["sequential", "repeated", "random", "all"], default="all", help="Access pattern")
+    parser.add_argument("--pattern", choices=["sequential", "repeated", "random", "conflict", "all"], default="all", help="Access pattern")
     parser.add_argument("--start", type=lambda x: int(x, 0), default=0x00003000, help="Start address (hex or dec)")
     parser.add_argument("--count", type=int, default=128, help="Number of accesses")
     parser.add_argument("--stride", type=int, default=4, help="Byte stride between accesses")
     parser.add_argument("--seed", type=lambda x: int(x, 0), default=0x5EEDC0DE, help="Random seed")
     parser.add_argument("--loop_size", type=int, default=1, help="Loop size for repeated pattern")
+    parser.add_argument("--target_index", type=int, default=0, help="Cache index for conflict pattern (0-63)")
+    parser.add_argument("--conflict_tags", type=int, default=4, help="Number of conflicting tags")
     parser.add_argument("--output_dir", type=str, default="traces", help="Output directory")
     args = parser.parse_args()
 
@@ -150,3 +178,8 @@ if __name__ == "__main__":
         rand_trace = generate_random_trace(args.count, args.seed)
         save_trace_txt(rand_trace, os.path.join(args.output_dir, "random_trace.txt"))
         save_trace_csv(rand_trace, os.path.join(args.output_dir, "random_trace.csv"))
+
+    if args.pattern in ["conflict", "all"]:
+        conf_trace = generate_conflict_trace(args.count, args.target_index, args.conflict_tags)
+        save_trace_txt(conf_trace, os.path.join(args.output_dir, "conflict_trace.txt"))
+        save_trace_csv(conf_trace, os.path.join(args.output_dir, "conflict_trace.csv"))
