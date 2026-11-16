@@ -89,7 +89,14 @@ module cache_top #(
     // =========================================================================
     // 1. Address Decoder (Sankalp)
     // =========================================================================
-    address_decoder u_addr_decoder (
+    address_decoder #(
+        .ADDR_WIDTH        (ADDR_WIDTH),
+        .TAG_WIDTH         (TAG_WIDTH),
+        .INDEX_WIDTH       (INDEX_WIDTH),
+        .OFFSET_WIDTH      (OFFSET_WIDTH),
+        .WORD_SEL_WIDTH    (2),
+        .BYTE_OFFSET_WIDTH (2)
+    ) u_addr_decoder (
         .addr         (cpu_req_addr),
         .tag          (dec_cpu_tag),
         .index        (dec_cpu_index),
@@ -138,12 +145,13 @@ module cache_top #(
     // 4. Cache Controller (Manas)
     // =========================================================================
     cache_controller #(
-        .ADDR_WIDTH   (ADDR_WIDTH),
-        .DATA_WIDTH   (DATA_WIDTH),
-        .BLOCK_WIDTH  (BLOCK_WIDTH),
-        .TAG_WIDTH    (TAG_WIDTH),
-        .INDEX_WIDTH  (INDEX_WIDTH),
-        .OFFSET_WIDTH (OFFSET_WIDTH)
+        .ADDR_WIDTH          (ADDR_WIDTH),
+        .DATA_WIDTH          (DATA_WIDTH),
+        .BLOCK_WIDTH         (BLOCK_WIDTH),
+        .TAG_WIDTH           (TAG_WIDTH),
+        .INDEX_WIDTH         (INDEX_WIDTH),
+        .OFFSET_WIDTH        (OFFSET_WIDTH),
+        .USE_EXT_DECODER     (1)
     ) u_cache_controller (
         .clk                 (clk),
         .rst                 (rst),
@@ -152,6 +160,12 @@ module cache_top #(
         .cpu_ready           (cpu_ready),
         .cpu_resp_valid      (cpu_resp_valid),
         .cpu_resp_data       (cpu_resp_data),
+        .dec_cpu_tag         (dec_cpu_tag),
+        .dec_cpu_index       (dec_cpu_index),
+        .dec_cpu_offset      (dec_cpu_offset),
+        .dec_cpu_word_sel    (dec_cpu_word_sel),
+        .dec_cpu_byte_offset (dec_cpu_byte_offset),
+        .dec_cpu_block_addr  (dec_cpu_block_addr),
         .storage_read_index  (storage_read_index),
         .storage_read_valid  (storage_read_valid),
         .storage_read_tag    (storage_read_tag),

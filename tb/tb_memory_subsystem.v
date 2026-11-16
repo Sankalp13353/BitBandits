@@ -225,9 +225,10 @@ module tb_memory_subsystem;
         $display("\n[TC2] All four words of block at 0x0000_2000 verified individually");
         issue_request(32'h0000_2000, got_block, latency_cycles);
         begin : tc2_block
-            reg [31:0] w0_got, w1_got, w2_got, w3_got;
-            reg [31:0] w0_exp, w1_exp, w2_exp, w3_exp;
-            reg        tc2_pass;
+            reg [31:0]  w0_got, w1_got, w2_got, w3_got;
+            reg [31:0]  w0_exp, w1_exp, w2_exp, w3_exp;
+            reg [127:0] exp_block_tc2;
+            reg         tc2_pass;
             tc2_pass = 1'b1;
 
             w0_got = got_block[31:0];
@@ -241,10 +242,11 @@ module tb_memory_subsystem;
             w3_exp = {32'h0000_2000 >> 4, 4'hC, 12'hD04};
 
             // Re-derive correctly using the function
-            w0_exp = expected_block(32'h0000_2000)[31:0];
-            w1_exp = expected_block(32'h0000_2000)[63:32];
-            w2_exp = expected_block(32'h0000_2000)[95:64];
-            w3_exp = expected_block(32'h0000_2000)[127:96];
+            exp_block_tc2 = expected_block(32'h0000_2000);
+            w0_exp = exp_block_tc2[31:0];
+            w1_exp = exp_block_tc2[63:32];
+            w2_exp = exp_block_tc2[95:64];
+            w3_exp = exp_block_tc2[127:96];
 
             if (w0_got !== w0_exp) begin
                 $display("      [FAIL] Word0: got=0x%08h exp=0x%08h", w0_got, w0_exp);
