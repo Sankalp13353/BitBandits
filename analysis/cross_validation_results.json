@@ -1,0 +1,44 @@
+[
+  {
+    "scenario": "TEST 1 (Cold Cache)",
+    "dut": "A:4 H:0 M:4 R:4",
+    "python": "A:4 H:0 M:4 R:4",
+    "data_integrity": "EXACT (32-bit)",
+    "status": "MATCH (100%)"
+  },
+  {
+    "scenario": "TEST 2 (Temporal Locality)",
+    "dut": "A:5 H:4 M:1 R:1",
+    "python": "A:5 H:4 M:1 R:1",
+    "data_integrity": "EXACT (32-bit)",
+    "status": "MATCH (100%)"
+  },
+  {
+    "scenario": "TEST 3 (Spatial Locality)",
+    "dut": "A:8 H:6 M:2 R:2",
+    "python": "A:8 H:6 M:2 R:2",
+    "data_integrity": "EXACT (32-bit)",
+    "status": "MATCH (100%)"
+  },
+  {
+    "scenario": "TEST 4 (Sequential Access)",
+    "dut": "A:64 H:56 M:8 R:8",
+    "python": "A:64 H:56 M:8 R:8",
+    "data_integrity": "EXACT (32-bit)",
+    "status": "MATCH (100%)"
+  },
+  {
+    "scenario": "TEST 5 (Conflict Thrashing)",
+    "dut": "A:8 H:2 M:6 R:6",
+    "python": "A:8 H:2 M:6 R:6",
+    "data_integrity": "EXACT (32-bit)",
+    "status": "MATCH (100%)"
+  },
+  {
+    "scenario": "TEST 8 (Consecutive Requests)",
+    "dut": "A:5 H:3 M:2 R:2",
+    "python": "A:5 H:3 M:2 R:2",
+    "data_integrity": "EXACT (32-bit)",
+    "status": "MATCH (100%)"
+  }
+]

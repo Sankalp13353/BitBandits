@@ -18,6 +18,7 @@ Cache Geometry:
   - Word Select: address[3:2] (2 bits)
 """
 
+import math
 from collections import OrderedDict
 from dataclasses import dataclass
 from typing import List, Optional, Dict, Any
@@ -72,14 +73,25 @@ class DirectMappedCacheSimulator:
     def __init__(self, capacity_bytes: int = 1024, block_size: int = 16):
         self.capacity_bytes = capacity_bytes
         self.block_size = block_size
-        self.num_lines = capacity_bytes // block_size  # 64 lines for 1 KB / 16 B
-        self.lines: List[CacheLine] = [CacheLine() for _ in range(self.num_lines)]
+        self.num_lines = capacity_bytes // block_size  # e.g. 64 lines for 1 KB / 16 B
+        self.words_per_block = max(1, block_size // 4)
+
+        # Field bit-widths
+        self.offset_bits = int(math.log2(self.block_size))
+        self.index_bits = int(math.log2(self.num_lines))
+        self.tag_bits = 32 - self.offset_bits - self.index_bits
+
+        self.offset_mask = (1 << self.offset_bits) - 1
+        self.index_mask = (1 << self.index_bits) - 1
+        self.tag_mask = (1 << self.tag_bits) - 1
+
+        self.lines: List[CacheLine] = [CacheLine(data=[0]*self.words_per_block) for _ in range(self.num_lines)]
 
         # 3C Reference Model:
         # 1. Unbounded history set to identify Compulsory (Cold) misses
         self.seen_blocks = set()
 
-        # 2. Fully Associative Cache of identical capacity (64 blocks) with LRU replacement
+        # 2. Fully Associative Cache of identical capacity (num_lines blocks) with LRU replacement
         # to distinguish Conflict misses from Capacity misses
         self.fa_cache = OrderedDict()  # block_addr -> None (OrderedDict used as LRU set)
 
@@ -98,7 +110,7 @@ class DirectMappedCacheSimulator:
         for line in self.lines:
             line.valid = False
             line.tag = 0
-            line.data = [0, 0, 0, 0]
+            line.data = [0] * self.words_per_block
         self.seen_blocks.clear()
         self.fa_cache.clear()
         self.total_accesses = 0
@@ -113,11 +125,11 @@ class DirectMappedCacheSimulator:
     def access(self, addr: int) -> AccessRecord:
         """Process a single CPU read access through the direct-mapped cache."""
         addr = addr & 0xFFFFFFFF
-        tag = (addr >> 10) & 0x3FFFFF
-        index = (addr >> 4) & 0x3F
-        offset = addr & 0xF
-        word_sel = (addr >> 2) & 0x3
-        block_addr = addr & ~0xF
+        tag = (addr >> (self.offset_bits + self.index_bits)) & self.tag_mask
+        index = (addr >> self.offset_bits) & self.index_mask
+        offset = addr & self.offset_mask
+        word_sel = (addr >> 2) & (self.words_per_block - 1) if self.words_per_block > 1 else 0
+        block_addr = addr & ~self.offset_mask
 
         line = self.lines[index]
         is_hit = False
@@ -176,7 +188,7 @@ class DirectMappedCacheSimulator:
                 self.fa_cache[block_addr] = None
 
             # Simulate memory block fetch and refill into direct-mapped line
-            refilled_block = [compute_golden_word(block_addr + (w * 4)) for w in range(4)]
+            refilled_block = [compute_golden_word(block_addr + (w * 4)) for w in range(self.words_per_block)]
             line.valid = True
             line.tag = tag
             line.data = refilled_block
